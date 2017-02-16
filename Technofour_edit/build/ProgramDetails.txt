@@ -1,0 +1,91 @@
+FILE STRUCTURE
+==============
+
+FFT.cpp
+-------
+	Contains functions that perform different variations Fast Fourier Transform and Inverse Fast Fourier Transform on data. It also contains a function to find the analytic signal for
+	the data.
+
+
+GNUPlot.cpp
+-----------
+	Contains functions to plot different kinds of data in different forms. It has functions to plot integer data, double data, Real part of complex data, magnitude of complex data and
+	so on
+
+Filter.cpp
+----------
+	Contains functions to perform various kinds of filters on the data.
+	
+	----Base Filter
+		Base filter is a customized filter meant to random noise from the data. It filter all data with a signed value of less than -125 and replaces them with the mean of the two
+		neighbouring values. It also removes all values below a NOISE_THRESHOLD(default value of 8) and sets them to zero.
+
+	----Median Filter
+		Median filter replaces all the samples in the data with the median of the 5 points in the neighbourhood.
+
+	----Gaussian Filter
+		Gaussian filter convolutes the data with 5 gaussian co-efficients to smoothen the data. The filter can be applied multiple times to smoothen the data.
+
+	----Sgolay Filter
+		Sgolay filter convolutes the data with 5 sgolay co-efficients to smoothen the data. The filter can be applied multiple times to smoothen the data.
+
+	----Low Pass Filter
+		Low pass filter is a standard rectangular low pass filter that retains frequency components upto 20% of Nyquist frequency and removes the rest of the components.
+
+
+Peaks.cpp
+---------
+	Contains functions to find peaks in the signal envelope of the data. A separate peak detection algorithm for contact and non-contact tests are implemented.
+
+	----Contact Peak Detection
+		In contact type thickness determination, the data contains multiple reflections all from the other side of the metal. The highest peak in the data apart from the initial
+		original pulse is assumed to be the first reflection pulse. A 'peak' is defined as a sample of data which is higher than all its neighbouring samples within a fixed window. 
+		The second highest peak if at a equal distance from the first reflection as the first reflection is from the original pulse is considered. The number of samples between the
+		second reflection peak and first reflection peak gives a measure of the time taken for the sound pulse to travel the thickness of the metal under inspection(Pulse Echo).
+
+	----Non-contact Peak detection	
+		In Non-contact type thickness determination, the data contains multiple reflections from the either surfaces of the metal. The first highest peak is the reflection from the
+		front surface of the metal. The following small peaks are reflections from the back of the metal surface. This is followed by a high pulse which is the second reflection
+		from the front surface of the metal. The Peaks::find_peaks_watertype(double* hil,int N) function determines the reflection from the front surface of the metal and cuts off
+		the part between the first front surface reflection and second front surface reflection and passes it to Peaks::find_peaks_contacttype2(double* hil,int N) for furthur 
+		analysis. This function follows a similar approach to contact peak detection to determine the multiple reflections from the back of the metal and determine the thickness
+		of the metal.
+
+
+technofour_config.cpp
+---------------------
+	Contains all the constants used in various files in the project.
+
+
+technofour.cpp
+--------------
+Measurement Process:
+	----Setup
+		Opens the port for communication through FTDI interface. Also sets the various constants and settings to be used.
+
+	----GetData
+		Get a pulse of data of appropriate datalength from the Technofour after checking for the data header.
+
+	----Filtering
+		Performs basefilter, median filter and low pass filter on the data to get a smooth data without noise. This is followed by finding Hilbert Transform and the signal envelope
+		of the data.
+
+	----Peak determination
+		Determines the peaks in the signal envelope.
+
+	----Thickness determination
+		Calculates the thickness based on the peaks in the signal envelope.
+
+	----Mode calculation
+		The above process is repeated for multiple pulses of data for 1 second and the modal thickness value is determined.
+
+	----Reliability Verification
+		Only if the relibility of the value is above 0.5, the thickness reading is considered to be valid and updated.
+
+	Caliberation Mode:
+		While running in caliberation mode, the velocity of the metal is calculation for metal sample of known thickness.
+
+
+	
+		
+	

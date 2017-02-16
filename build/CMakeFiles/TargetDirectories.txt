@@ -1,0 +1,11 @@
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/CMakeFiles/test.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/CMakeFiles/ws_examples.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/CMakeFiles/wss_examples.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/CMakeFiles/edit_cache.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/CMakeFiles/rebuild_cache.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/test.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/edit_cache.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/crypto_test.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/io_test.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/parse_test.dir
+/home/madguy02/Desktop/Simple-WebSocket-Server/build/tests/CMakeFiles/rebuild_cache.dir

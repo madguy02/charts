@@ -1,0 +1,87 @@
+Installation Procedure
+======================
+FTDI Drivers installation
+-------------------------
+Linux FTDI D2XX drivers can be downloader from http://www.ftdichip.com/Drivers/D2XX.htm. 
+
+The downloaded tar.gz file should be extracted and copied into default Linux library folder.
+
+	sudo cp /releases/build/arch/lib* /usr/local/lib
+
+'arch' refers to CPU architecture: i386,x86_64,arm926
+
+Make the following symbolic links and permission modifications in /usr/local/lib:
+
+	cd /usr/local/lib
+	sudo ln –s libftd2xx.so.1.1.12 libftd2xx.so
+	sudo chmod 0755 libftd2xx.so.1.1.12
+
+
+FFTW driver
+-----------
+The fftw library can be downloaded from http://www.fftw.org/fftw-3.3.5.tar.gz
+
+
+Compilation
+-----------
+The 'build.sh' bash shell script file is executed to compile the program. An executable is generated in the same folder.
+
+
+
+Usage
+=====
+Contact-type
+------------
+The probe is placed in proper contact with the material under inspection and the executable is run.
+
+Non-Contact type
+----------------
+The probe is placed in the water directed towards the material under inspection and the executable is run.
+
+
+Caliberation Procedure
+======================
+To caliberate the velocity of sound in a material of known thickness, the probe is placed in proper contact with the metal and the code is run. If a reliable value of velocity is estimated,
+the estimated velocity is printed out onto the screen.
+
+
+Heuristic Peak detection algorithm
+==================================
+Contact-type
+------------
+A peak is defined as a sample which is higher than a fixed number of neighbours to the left and right of the sample. All the peaks in the data are sorted in the descending order of their
+of their heights. The first peak in the final sorted list is ignored as it corresponds to  the original pulse. The second peak corresponds the first reflection and the third peak of the
+ sorted array describes the second reflection.
+
+
+The difference in time between the initial pulse and the first reflection and that between the first reflection and the second reflection give an estimate of the depth. However it is
+possible that pulse attenuates so much that the second reflection is never detected and a false peak may be detected as the second reflection. Also it is possible for a sheer wave
+reflection pulse to appear between the second and the third peak. Hence the third peak is considered only if the time between the  second and third peak is comparable to the time 
+between the first and the second peak. If the third peak is considered the time between second and third peak is used for depth calculation else the time between the 
+first and second peak is used for the depth calculation.
+
+Non-contact type
+----------------
+In non-contact signal, the highest peak after the initial original pulse corresponds to the reflection from the front surface of the metal. The gap between this highest peak and the 
+original peak gives a measure of the depth of the water-column. The piece of data between the first reflection and second reflection from the front surface of the metal is separated 
+out for detection of peaks from the back of the metal. This piece of data has multiple reflections from the other side of the metal. A similar approach as used in contact type is used 
+to determine the thickness of the metal with the peaks in this piece of data. 
+
+Note: The water-column length must be more than one-fourth of the thickness of the target material.
+
+
+Heuristic Thickness estimation algorithm
+========================================
+All the above steps are repeated multiple times within a second to get multiple values for thickness and water column(in case of non-contact type). The modal value of thickness and the 
+mean of water column is calculated and is estimated to be the thickness of the metal under inspection and depth of water column respectively.
+
+
+Pseudo thickness validation algorithm
+=====================================
+The reliability of the thickness value is calculated from the peaks in the signal envelope data. A more accurate estimation is possible only if the peaks are considerably above the noise 
+floor. Hence the height of the peak is compared with the theoretically calculated height(considering sound attenuation) and the ratio is used to calculate the reliability value. Finally for all pulses in the one second
+time interval the average of reliabilities of the modal value of thickness is calculated. If that final reliability is less than 0.5, the thickness estimated is considered unreliable and
+ignored.
+
+
+
