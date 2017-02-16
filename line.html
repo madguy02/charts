@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+
+    <style>
+        .axis path {
+            fill: none;
+            stroke: #777;
+            shape-rendering: crispEdges;
+        }
+        .axis text {
+            font-family: Lato;
+            font-size: 13px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron">
+
+            <svg id="visualisation" width="1000" height="500"></svg>
+            <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+            <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script>
+                //require('events').EventEmitter.prototype._maxListeners = 100;
+
+                function InitChart() {
+                     var data = [{
+                         "sale": "200",
+                        "year": "2000"
+                     }, {
+                         "sale": "120",
+                         "year": "2002"
+                     }, {
+                         "sale": "190",
+                         "year": "2004"
+                     }, {
+                         "sale": "170",
+                         "year": "2006"
+                     }, {
+                         "sale": "210",
+                         "year": "2008"
+                     }, {
+                        "sale": "140",
+                         "year": "2010"
+                     }];  
+                   /* var data2 = [{
+                        "sale": "60",
+                        "year": "2000"
+                    }, {
+                        "sale": "30",
+                        "year": "2002"
+                    }, {
+                        "sale": "100",
+                        "year": "2004"
+                    }, {
+                        "sale": "210",
+                        "year": "2006"
+                    }, {
+                        "sale": "90",
+                        "year": "2008"
+                    }, {
+                        "sale": "176",
+                        "year": "2010"
+                    }];   */
+
+                    /*var socket = io.connect('http://127.0.0.1:8125');
+                 socket.on('message',function(value){
+                    JSON.parse(value);
+                    JSON.parse(value);
+                    //console.log(data.w);
+                    //console.log(data.r); */
+                 //});
+                    //var ws = new WebSocket('ws://127.0.0.1:3000');
+                    //ws.onmessage()
+                    var vis = d3.select("#visualisation"),
+                        WIDTH = 1000,
+                        HEIGHT = 500,
+
+                        MARGINS = {
+                            top: 20,
+                            right: 20,
+                            bottom: 20,
+                            left: 50
+                        },
+                        xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2000, 2010]),
+                        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134, 215]),
+                        xAxis = d3.svg.axis()
+                        .scale(xScale),
+
+                        yAxis = d3.svg.axis()
+                        .scale(yScale)
+                        .orient("left"); 
+                    
+                    vis.append("svg:g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                        .call(xAxis);
+                    vis.append("svg:g")
+                        .attr("class", "y axis")
+                        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+                        .call(yAxis);
+                    
+
+                    var lineGen = d3.svg.line()
+                        .x(function(d) {
+                            return xScale(d.year);
+                        })
+                        .y(function(d) {
+                            return yScale(d.sale);
+                        }) 
+                        .interpolate("basis");
+                    vis.append('svg:path')
+                        .attr('d', lineGen(data/*data*/))
+                        .transition()
+                        .duration(4000)
+                        //.delay(2000)
+                        .attr('stroke', 'green')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none'); 
+                   /*vis.append('svg:path')
+                        .transition()
+                        .duration(4000)
+                        //.delay(1000)
+                        .attr('d', lineGen(data2))
+                        .attr('stroke', 'blue')
+                        .attr('stroke-width', 2)
+                        .attr('fill', 'none');  */                 }  
+                InitChart();
+            </script>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
